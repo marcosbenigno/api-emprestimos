@@ -86,22 +86,26 @@ def removerChave(cd_chave):
     return False
 
 def listarEmprestimos():
-#!!!!!
     resp = list()
     for emprestimo in Emprestimo.query.all():
-        resp += {"cd_emprestimo": emprestimo.cd_emprestimo, "cd_chave": emprestimo.cd_chave,"cpf": emprestimo.cpf_pessoa}
+        resp.append({"cd_emprestimo": emprestimo.cd_emprestimo,
+                    "cd_chave": emprestimo.cd_chave,
+                    "cpf": emprestimo.cpf_pessoa})
     return resp
 
 def listarEmprestimosEmAndamento():
     resp = list()
     for emprestimo in Emprestimo.query.filter_by(dt_hr_devolucao= None).all():
-        resp += {"cd_emprestimo": emprestimo.cd_emprestimo, "cd_chave": emprestimo.cd_chave,"cpf": emprestimo.cpf_pessoa}
+        resp.append({"cd_emprestimo": emprestimo.cd_emprestimo,
+                     "cd_chave": emprestimo.cd_chave,
+                     "cpf": emprestimo.cpf_pessoa})
     return resp
 
 def listarChaves():
     resp = list()
     for chave in Chave.query.all():
-        resp += {"cd_chave":chave.cd_chave, "desc_chave": chave.desc_chave}
+        resp.append({"cd_chave":chave.cd_chave,
+                    "desc_chave": chave.desc_chave})
     return resp
 
 def chaveEmprestada(cd_chave):

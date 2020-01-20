@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, Response
 import app.emprestimos.models as md
 from app import db
 mod = Blueprint('routes', __name__, url_prefix='/')
@@ -36,5 +36,4 @@ def emprestimos():
     resposta = {'status': 200,
                   'data': []}
     return resposta
-
 
