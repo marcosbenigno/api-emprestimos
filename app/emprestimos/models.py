@@ -123,3 +123,39 @@ def existeEmprestimo(kwargs):
             return True
         return False
     return False
+
+def getEmprestimo(kwargs):
+    if "cd_emprestimo" in kwargs:
+        emprestimo = Emprestimo.query.filter_by(cd_emprestimo=kwargs.get('cd_emprestimo')).first()
+        return {"cd_emprestimo": emprestimo.cd_emprestimo,
+                    "cd_chave": emprestimo.cd_chave,
+                    "cpf_pessoa": emprestimo.cpf_pessoa}
+    if "cd_chave" in kwargs and "cpf_pessoa" in kwargs:
+        emprestimo = Emprestimo.query.filter_by(cd_chave=kwargs.get('cd_chave'), cpf_pessoa=kwargs.get('cpf_pessoa')).first()
+        return {"cd_emprestimo": emprestimo.cd_emprestimo,
+                    "cd_chave": emprestimo.cd_chave,
+                    "cpf_pessoa": emprestimo.cpf_pessoa}
+    if "cd_chave" in kwargs:
+        emprestimo = Emprestimo.query.filter_by(cd_chave=kwargs.get('cd_chave')).first()
+        return {"cd_emprestimo": emprestimo.cd_emprestimo,
+                    "cd_chave": emprestimo.cd_chave,
+                    "cpf_pessoa": emprestimo.cpf_pessoa}
+    return False
+
+def getChave(kwargs):
+    if "cd_chave" in kwargs:
+        chave = Chave.query.filter_by(cd_chave=kwargs.get('cd_chave')).first()
+        return {"cd_chave": chave.cd_chave,
+                    "desc_chave": chave.desc_chave,
+                    "tag_chave": chave.tag_chave}
+    if "tag_chave" in kwargs:
+        chave = Chave.query.filter_by(tag_chave=kwargs.get('tag_chave')).first()
+        return {"cd_chave": chave.cd_chave,
+                    "desc_chave": chave.desc_chave,
+                    "tag_chave": chave.tag_chave}
+    if "desc_chave" in kwargs:
+        chave = Chave.query.filter_by(cd_chave=kwargs.get('desc_chave')).first()
+        return {"cd_chave": chave.cd_chave,
+                    "desc_chave": chave.desc_chave,
+                    "tag_chave": chave.tag_chave}
+    return False
