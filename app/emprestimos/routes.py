@@ -1,8 +1,9 @@
 from flask import Blueprint, request, Response
+import json
 import app.emprestimos.models as md
-from app import db
-mod = Blueprint('routes', __name__, url_prefix='/')
 
+
+mod = Blueprint('routes', __name__, url_prefix='/')
 @mod.route('/emprestimos/', methods=['GET', 'POST', 'DELETE'])
 def emprestimos():
 #requests com content-type = application/json
@@ -19,9 +20,9 @@ def emprestimos():
       return resposta
     if md.existeEmprestimo({"cd_chave": cd_chave, "cpf_pessoa": cpf}):
       emprestimo = md.getEmprestimo({"cd_chave": cd_chave, "cpf_pessoa": cpf})
-      resposta = Response({"id": emprestimo.cd_emprestimo,
+      resposta = Response(json.dumps({"id": emprestimo.cd_emprestimo,
                             "uri": "/emprestimos/"+str(emprestimo.cd_emprestimo),
-                            "type": "emprestimo"},
+                            "type": "emprestimo"}),
                             status=201)
       return resposta
     resposta = Response('',status=500)
@@ -45,11 +46,11 @@ def emprestimos():
   if request.method == 'GET':
     if md.listarEmprestimos():
       resposta = Response({
-                  'data': md.listarEmprestimos()},
+                  'data': json.dumps(md.listarEmprestimos())},
                   status=200)
       return resposta
     resposta =  Response({
-                  'data': []},
+                  'data': json.dumps([])},
                   status=200)
     return resposta
 
@@ -59,7 +60,7 @@ def emprestimos():
 def emprestimos_cd(cd_emprestimo):
   if request.method == 'GET':
     if existeEmprestimo(cd_emprestimo):
-      return Response(getEmprestimo(cd_emprestimo),
+      return Response(json.dumps(getEmprestimo(cd_emprestimo)),
                         status=200)
     return Response('', status=404)
 
@@ -75,9 +76,9 @@ def chaves():
     else:
       if md.getChave({"desc_chave": desc_chave, "tag_chave": tag_chave}):
         chave = md.getChave({"desc_chave": desc_chave, "tag_chave": tag_chave})
-        resposta = Response({"id": chave.cd_chave,
+        resposta = Response(json.dumps({"id": chave.cd_chave,
                             "uri": "/chaves/"+str(emprestimo.cd_chaves),
-                            "type": "chave"},
+                            "type": "chave"}),
                             status=201)
         return resposta
     resposta = Response('',status=500)
@@ -100,12 +101,12 @@ def chaves():
 
   if request.method == 'GET':
     if md.listarChaves():
-      resposta = Response({
-                  'data': md.listarChaves()},
+      resposta = Response(json.dumps({
+                  'data': md.listarChaves()}),
                   status=200)
       return resposta
     resposta =  Response({
-                  'data': []},
+                  'data': json.dumps([])},
                   status=200)
     return resposta
 
@@ -113,6 +114,6 @@ def chaves():
 def chaves_cd(cd_chave):
   if request.method == 'GET':
     if getChave(cd_chave):
-      return Response(getChave(cd_chave),
+      return Response(json.dumps(getChave(cd_chave)),
                         status=200)
     return Response('', status=404)

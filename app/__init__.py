@@ -7,4 +7,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 from app.emprestimos.routes import mod
+from app.login.routes import mod as login
+
 app.register_blueprint(mod)
+app.register_blueprint(login)
