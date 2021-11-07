@@ -45,9 +45,10 @@ def emprestimos():
 
   if request.method == 'GET':
     if md.listarEmprestimos():
-      resposta = Response({
-                  'data': json.dumps(md.listarEmprestimos())},
-                  status=200)
+      data = json.dumps(md.listarEmprestimos())
+      resposta = Response(json.dumps({
+                  "data": data}),
+                  status=200)  
       return resposta
     resposta =  Response({
                   'data': json.dumps([])},
@@ -59,8 +60,8 @@ def emprestimos():
 @mod.route('/emprestimos/<cd_emprestimo>', methods=['GET'])
 def emprestimos_cd(cd_emprestimo):
   if request.method == 'GET':
-    if existeEmprestimo(cd_emprestimo):
-      return Response(json.dumps(getEmprestimo(cd_emprestimo)),
+    if md.existeEmprestimo({"cd_emprestimo": cd_emprestimo}):
+      return Response(json.dumps(md.getEmprestimo({"cd_emprestimo": cd_emprestimo})),
                         status=200)
     return Response('', status=404)
 
@@ -113,7 +114,7 @@ def chaves():
 @mod.route('/chaves/<cd_chave>', methods=['GET'])
 def chaves_cd(cd_chave):
   if request.method == 'GET':
-    if getChave(cd_chave):
-      return Response(json.dumps(getChave(cd_chave)),
+    if md.getChave({"cd_chave": cd_chave}):
+      return Response(json.dumps(md.getChave({"cd_chave": cd_chave})),
                         status=200)
     return Response('', status=404)

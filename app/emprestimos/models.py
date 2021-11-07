@@ -1,5 +1,6 @@
 from app import db
 import datetime
+import requests
 
 class Pessoa(db.Model):
     cpf_pessoa = db.Column(db.Integer, primary_key=True, unique=True)
@@ -159,3 +160,11 @@ def getChave(kwargs):
                     "desc_chave": chave.desc_chave,
                     "tag_chave": chave.tag_chave}
     return False
+
+def getPessoaByTag(tag, token):
+    headers = {'Authorization': 'Bearer '+str(token)}
+    r = requests.get("https://api.nce.ufrj.br/v1/acesso/associacao/interno/"+str(tag))
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return r.status_code
